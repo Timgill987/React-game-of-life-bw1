@@ -1,0 +1,32 @@
+.Board {
+    position: relative;
+    margin: 0 auto;
+    margin-top: 50px;
+    background-color: black;
+    background-image: linear-gradient(#333 1px, transparent 1px),
+        linear-gradient(90deg, #333 1px, transparent 1px);
+}
+
+.Cell {
+    background-image: url(http://pixelartmaker.com/art/2a54f2b99d76b0d.png);
+    background-size: contain;
+    position: absolute;
+}
+
+.controls {
+    margin-top: 20px;
+}
+
+.button {
+    margin-left: 12px;
+    cursor: pointer;
+}
+
+.controls {
+    text-align: center;
+    background-color: lightgray;
+    font-size: 16px;
+    margin-left: 550px;
+    margin-right: 552px;
+    height: 30px;
+}
