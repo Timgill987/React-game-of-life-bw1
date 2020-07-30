@@ -45,7 +45,6 @@ class Game extends React.Component {
         height: HEIGHT,
     };
 
-  
     makeEmptyBoard() {
         //creating empty board
         let board = [];
@@ -193,19 +192,18 @@ class Game extends React.Component {
         this.setState({ cells: this.makeCells() });
     };
 
+
     biggerGrid = () => {
         if (this.state.width <= 600) {
             this.setState({
                 width: this.state.width + 100,
                 height: this.state.height + 100,
             });
+            this.rows = this.state.height / CELL_SIZE;
+            this.cols = this.state.width / CELL_SIZE;
+            this.makeEmptyBoard();
+            this.setState({ cells: this.makeCells() });
         }
-        this.board = this.makeEmptyBoard();
-        if (x >= 0 && x <= this.cols && y >= 0 && y <= this.rows) {
-            this.board[y][x] = !this.board[y][x];
-        }
-
-        this.setState({ cells: this.makeCells() });
         console.log("bigger", this.state.width);
     };
 
@@ -217,11 +215,7 @@ class Game extends React.Component {
             });
         }
         this.board = this.makeEmptyBoard();
-        if (x >= 0 && x <= this.cols && y >= 0 && y <= this.rows) {
-            this.board[y][x] = !this.board[y][x];
-        }
 
-        this.setState({ cells: this.makeCells() });
         console.log("smaller", this.state.width);
     };
     normalGrid = () => {
@@ -230,14 +224,8 @@ class Game extends React.Component {
             height: 300,
         });
         this.board = this.makeEmptyBoard();
-        if (x >= 0 && x <= this.cols && y >= 0 && y <= this.rows) {
-            this.board[y][x] = !this.board[y][x];
-        }
-
-        this.setState({ cells: this.makeCells() });
         console.log("normal", this.state.width);
     };
-
 
     render() {
         const { cells, isRunning } = this.state;
