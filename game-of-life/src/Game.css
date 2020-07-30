@@ -13,6 +13,17 @@
     position: absolute;
 }
 
+
+
+.generation{
+    background-color: darkcyan;
+    text-align: center;
+    width: 35%;
+    margin-left: 32%;
+    border: 3px solid lightgray;
+    border-radius: 10px;
+}
+
 .controls {
     margin-top: 20px;
 }
