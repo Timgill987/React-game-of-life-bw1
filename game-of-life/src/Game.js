@@ -1,9 +1,9 @@
 import React from "react";
 import "./Game.css";
 
-const CELL_SIZE = 20;
-let WIDTH = 300;
-let HEIGHT = 300;
+const CELL_SIZE = 15;
+let WIDTH = 360;
+let HEIGHT = 360;
 
 // rendering the cells on the board
 
@@ -39,6 +39,7 @@ class Game extends React.Component {
         cells: [],
         isRunning: false,
         interval: 100,
+        generation: 0,
         // setting dimension state
         // for big and small grid
         width: WIDTH,
@@ -130,6 +131,7 @@ class Game extends React.Component {
         }
 
         this.board = newBoard;
+        this.state.generation++;
         this.setState({ cells: this.makeCells() });
 
         this.timeoutHandler = window.setTimeout(() => {
@@ -176,7 +178,10 @@ class Game extends React.Component {
     // clears the grid of live cells to reset the grid
     handleClear = () => {
         this.board = this.makeEmptyBoard();
-        this.setState({ cells: this.makeCells() });
+        this.setState({
+            cells: this.makeCells(),
+            generation: 0,
+        });
     };
     // randomly sets the cells in the grid to alive before the game starts
     handleRandom = () => {
@@ -191,8 +196,8 @@ class Game extends React.Component {
     };
 
     updateGrid = () => {
-        this.rows = this.state.height /// CELL_SIZE;
-        this.cols = this.state.width /// CELL_SIZE;
+        this.rows = this.state.height;
+        this.cols = this.state.width;
         this.board = this.makeEmptyBoard();
         this.setState({ cells: this.makeCells() });
     };
@@ -228,6 +233,9 @@ class Game extends React.Component {
         const { cells, isRunning } = this.state;
         return (
             <div>
+                <div className="generation">
+                    <h1>Current Generation: {this.state.generation} </h1>
+                </div>
                 <div
                     className="Board"
                     style={{
