@@ -2,8 +2,8 @@ import React from "react";
 import "./Game.css";
 
 const CELL_SIZE = 20;
-let WIDTH = 500;
-let HEIGHT = 500;
+let WIDTH = 300;
+let HEIGHT = 300;
 
 // rendering the cells on the board
 
@@ -45,29 +45,7 @@ class Game extends React.Component {
         height: HEIGHT,
     };
 
-    biggerGrid = () => {
-        this.setState({
-            width: this.state.width + 100,
-            height: this.state.height + 100,
-        });
-        console.log("double", this.state.width)
-    };
-
-    smallerGrid = () => {
-        this.setState({
-            width: this.state.width - 100,
-            height: this.state.height - 100,
-        });
-        console.log("half", this.state.width)
-    };
-    normalGrid = () => {
-        this.setState({
-            width: 500,
-            height: 500,
-        });
-        console.log("normal", this.state.width)
-    };
-
+  
     makeEmptyBoard() {
         //creating empty board
         let board = [];
@@ -171,7 +149,7 @@ class Game extends React.Component {
             [-1, -1],
             [-1, 0],
             [-1, 1],
-            [0, 1],
+            [0, 1], // the eight surrounding cells to a given cell
             [1, 1],
             [1, 0],
             [1, -1],
@@ -215,8 +193,54 @@ class Game extends React.Component {
         this.setState({ cells: this.makeCells() });
     };
 
+    biggerGrid = () => {
+        if (this.state.width <= 600) {
+            this.setState({
+                width: this.state.width + 100,
+                height: this.state.height + 100,
+            });
+        }
+        this.board = this.makeEmptyBoard();
+        if (x >= 0 && x <= this.cols && y >= 0 && y <= this.rows) {
+            this.board[y][x] = !this.board[y][x];
+        }
+
+        this.setState({ cells: this.makeCells() });
+        console.log("bigger", this.state.width);
+    };
+
+    smallerGrid = () => {
+        if (this.state.width > 100) {
+            this.setState({
+                width: this.state.width - 100,
+                height: this.state.height - 100,
+            });
+        }
+        this.board = this.makeEmptyBoard();
+        if (x >= 0 && x <= this.cols && y >= 0 && y <= this.rows) {
+            this.board[y][x] = !this.board[y][x];
+        }
+
+        this.setState({ cells: this.makeCells() });
+        console.log("smaller", this.state.width);
+    };
+    normalGrid = () => {
+        this.setState({
+            width: 300,
+            height: 300,
+        });
+        this.board = this.makeEmptyBoard();
+        if (x >= 0 && x <= this.cols && y >= 0 && y <= this.rows) {
+            this.board[y][x] = !this.board[y][x];
+        }
+
+        this.setState({ cells: this.makeCells() });
+        console.log("normal", this.state.width);
+    };
+
+
     render() {
-        const { cells, interval, isRunning } = this.state;
+        const { cells, isRunning } = this.state;
         return (
             <div>
                 <div
