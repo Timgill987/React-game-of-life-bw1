@@ -28,8 +28,8 @@ class Cell extends React.Component {
 class Game extends React.Component {
     constructor() {
         super();
-        this.rows = HEIGHT / CELL_SIZE;
-        this.cols = WIDTH / CELL_SIZE;
+        this.rows = this.state.height / CELL_SIZE;
+        this.cols = this.state.width / CELL_SIZE;
 
         this.board = this.makeEmptyBoard();
     }
@@ -54,7 +54,6 @@ class Game extends React.Component {
                 board[y][x] = false;
             }
         }
-
         return board;
     }
     // calculate the position of clicks on the board
@@ -77,7 +76,6 @@ class Game extends React.Component {
                 }
             }
         }
-
         return cells;
     }
     // takes the click and fires off the cell bool
@@ -91,7 +89,6 @@ class Game extends React.Component {
         if (x >= 0 && x <= this.cols && y >= 0 && y <= this.rows) {
             this.board[y][x] = !this.board[y][x];
         }
-
         this.setState({ cells: this.makeCells() });
     };
     // runs the game (duh)
@@ -183,28 +180,31 @@ class Game extends React.Component {
     };
     // randomly sets the cells in the grid to alive before the game starts
     handleRandom = () => {
+        this.rows = this.state.height / CELL_SIZE;
+        this.cols = this.state.width / CELL_SIZE;
         for (let y = 0; y < this.rows; y++) {
             for (let x = 0; x < this.cols; x++) {
                 this.board[y][x] = Math.random() >= 0.5;
             }
         }
-
         this.setState({ cells: this.makeCells() });
     };
 
+    updateGrid = () => {
+        this.rows = this.state.height /// CELL_SIZE;
+        this.cols = this.state.width /// CELL_SIZE;
+        this.board = this.makeEmptyBoard();
+        this.setState({ cells: this.makeCells() });
+    };
 
     biggerGrid = () => {
-        if (this.state.width <= 600) {
+        if (this.state.width < 600) {
             this.setState({
                 width: this.state.width + 100,
                 height: this.state.height + 100,
             });
-            this.rows = this.state.height / CELL_SIZE;
-            this.cols = this.state.width / CELL_SIZE;
-            this.makeEmptyBoard();
-            this.setState({ cells: this.makeCells() });
+            this.updateGrid();
         }
-        console.log("bigger", this.state.width);
     };
 
     smallerGrid = () => {
@@ -213,19 +213,16 @@ class Game extends React.Component {
                 width: this.state.width - 100,
                 height: this.state.height - 100,
             });
+            this.updateGrid();
         }
-        this.board = this.makeEmptyBoard();
-
-        console.log("smaller", this.state.width);
     };
-    normalGrid = () => {
-        this.setState({
-            width: 300,
-            height: 300,
-        });
-        this.board = this.makeEmptyBoard();
-        console.log("normal", this.state.width);
-    };
+    // normalGrid = () => {
+    //     this.setState({
+    //         width: 300,
+    //         height: 300,
+    //     });
+    //     this.updateGrid();
+    // };
 
     render() {
         const { cells, isRunning } = this.state;
@@ -282,9 +279,9 @@ class Game extends React.Component {
                     <button className="button" onClick={this.smallerGrid}>
                         Small Grid
                     </button>
-                    <button className="button" onClick={this.normalGrid}>
+                    {/* <button className="button" onClick={this.normalGrid}>
                         Normal Grid
-                    </button>
+                    </button> */}
                 </div>
             </div>
         );
